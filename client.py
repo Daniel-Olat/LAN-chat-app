@@ -2,13 +2,14 @@ import socket
 import threading 
 nickname = input("Enter your nickname : ")
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Allows IPv4 addresses and uses TCP over UDP
-client.connect(("127.0.0.1", 4000)) #Connect to the server
+server_ip = input("Enter the server IP Address: ")
+client.connect((server_ip, 4000)) #connects to the server on port 4000
 
 def receive():
     while True:
         try:
             message = client.recv(1024).decode() #Receive message from server
-            if message == "NICK": #If the server asks for nickname, send it
+            if message == "NICK": #If the server asks for nickname, send it. NICK is the servers handshake.
                 client.send(nickname.encode())
             else:
                 print(message) #Print the message received from the server
